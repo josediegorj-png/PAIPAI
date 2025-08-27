@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ patient.first_name }} {{ patient.last_name }} <small>#{{ patient.id }}</small></h2>
+<p>
+  <strong>RUT:</strong> {{ patient.rut or '-' }} ·
+  <strong>Curso:</strong> {{ patient.grade or '-' }} ·
+  <strong>Establecimiento:</strong> {{ patient.school or '-' }} ·
+  <strong>Estado:</strong> {{ patient.status }}
+</p>
+<p>
+  <a class="secondary" href="/patients/{{ patient.id }}/edit">Editar usuario</a>
+  <a class="contrast" href="/patients/{{ patient.id }}/sessions/new">+ Agregar sesión</a>
+</p>
+
+<h3>Sesiones</h3>
+<table>
+  <thead>
+    <tr><th>Fecha</th><th>Profesional</th><th>Modalidad</th><th>Duración</th><th>Foco</th><th></th></tr>
+  </thead>
+  <tbody>
+    {% for s in sessions %}
+    <tr>
+      <td>{{ s.date }}</td>
+      <td>{{ s.professional }}</td>
+      <td>{{ s.mode }}</td>
+      <td>{{ s.duration_min }} min</td>
+      <td>{{ s.focus or '-' }}</td>
+      <td><a href="/sessions/{{ s.id }}/edit">Editar</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

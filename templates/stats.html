@@ -8,7 +8,11 @@
   <article><h3>Total sesiones</h3><p class="kpi">{{ total_sessions }}</p></article>
 </div>
 
-<h3>Sesiones por mes</h3>
+<article class="card">
+  <h3>Sesiones por mes</h3>
+  <canvas id="chart" height="120"></canvas>
+</article>
+
 <table>
   <thead><tr><th>Mes</th><th>Cantidad</th></tr></thead>
   <tbody>
@@ -17,4 +21,16 @@
     {% endfor %}
   </tbody>
 </table>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const labels = [{% for m in monthly %}'{{ m.month }}',{% endfor %}];
+  const data = [{% for m in monthly %}{{ m.count }},{% endfor %}];
+  const ctx = document.getElementById('chart').getContext('2d');
+  new Chart(ctx, {
+    type: 'line',
+    data: { labels, datasets: [{ label: 'Sesiones', data, borderWidth: 2, tension:.3 }]},
+    options: { plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true}} }
+  });
+</script>
 {% endblock %}

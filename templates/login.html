@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<article>
+  <hgroup>
+    <h2>Ingreso</h2>
+    <p>Use la contraseña de administración.</p>
+  </hgroup>
+  <form method="post">
+    <label>Contraseña
+      <input name="password" type="password" required />
+    </label>
+    <button type="submit">Entrar</button>
+  </form>
+</article>
+{% endblock %}

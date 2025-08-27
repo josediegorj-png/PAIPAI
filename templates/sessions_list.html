@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Sesiones</h2>
+<form method="get" class="grid">
+  <input type="search" name="q" placeholder="Buscar por profesional o foco" value="{{ q }}" />
+  <button type="submit">Buscar</button>
+  <a class="secondary" href="/export/sessions.csv">Exportar CSV</a>
+</form>
+<table>
+  <thead>
+    <tr><th>Fecha</th><th>Usuario</th><th>Profesional</th><th>Modalidad</th><th>Foco</th><th></th></tr>
+  </thead>
+  <tbody>
+    {% for s in sessions %}
+    <tr>
+      <td>{{ s.date }}</td>
+      <td><a href="/patients/{{ s.patient_id }}">#{{ s.patient_id }}</a></td>
+      <td>{{ s.professional }}</td>
+      <td>{{ s.mode }}</td>
+      <td>{{ s.focus or '-' }}</td>
+      <td><a href="/sessions/{{ s.id }}/edit">Editar</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

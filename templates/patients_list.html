@@ -1,13 +1,25 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2>Usuarios</h2>
+
+<nav>
+  {% set current = status or '' %}
+  <ul>
+    <li><a href="/patients" class="{{ 'contrast' if current=='' else '' }}">Todos</a></li>
+    <li><a href="/patients?status=activo" class="{{ 'contrast' if current=='activo' else '' }}">Usuarios Activos</a></li>
+    <li><a href="/patients?status=lista_espera" class="{{ 'contrast' if current=='lista_espera' else '' }}">Lista de Espera</a></li>
+    <li><a href="/patients?status=egresado" class="{{ 'contrast' if current=='egresado' else '' }}">Egresados</a></li>
+  </ul>
+</nav>
+
 <form method="get" class="grid">
   <input type="search" name="q" placeholder="Buscar por nombre o RUT" value="{{ q }}" />
   <select name="status">
-    <option value="">Todos</option>
-    <option value="activo" {% if status=='activo' %}selected{% endif %}>Activos</option>
+    <option value="" {% if status=='' %}selected{% endif %}>Todos</option>
+    <option value="activo" {% if status=='activo' %}selected{% endif %}>En Intervención</option>
+    <option value="lista_espera" {% if status=='lista_espera' %}selected{% endif %}>Lista de Espera</option>
     <option value="egresado" {% if status=='egresado' %}selected{% endif %}>Egresados</option>
-    <option value="lista_espera" {% if status=='lista_espera' %}selected{% endif %}>Lista de espera</option>
+    <option value="evaluacion" {% if status=='evaluacion' %}selected{% endif %}>Evaluación Inicial</option>
   </select>
   <button type="submit">Filtrar</button>
   <a class="secondary" href="/patients/new">+ Nuevo usuario</a>
@@ -16,18 +28,33 @@
 
 <table>
   <thead>
-    <tr><th>ID</th><th>Nombre</th><th>RUT</th><th>Curso</th><th>Estado</th><th></th></tr>
+    <tr>
+      <th>ID</th><th>Nombres</th><th>Estado</th><th>Rut</th>
+      <th>Edad</th><th>Fecha nac.</th><th>Adulto Resp.</th><th>Relación</th>
+      <th>Teléfono</th><th>Dirección</th><th>Zona</th><th>Frecuencia</th><th>Acciones</th>
+    </tr>
   </thead>
   <tbody>
     {% for p in patients %}
-    <tr>
-      <td>{{ p.id }}</td>
-      <td>{{ p.first_name }} {{ p.last_name }}</td>
-      <td>{{ p.rut or '-' }}</td>
-      <td>{{ p.grade or '-' }}</td>
-      <td>{{ p.status }}</td>
-      <td><a href="/patients/{{ p.id }}">Ver</a> · <a href="/patients/{{ p.id }}/edit">Editar</a></td>
-    </tr>
+      {% set st = p.status or '' %}
+      {% set chip = 'pill-green' if st=='activo' else ('pill-blue' if st=='evaluacion' else ('pill-yellow' if st=='lista_espera' else 'pill-gray')) %}
+      <tr>
+        <td>{{ p.id }}</td>
+        <td>{{ p.first_name }} {{ p.last_name }}</td>
+        <td><span class="pill {{ chip }}">
+          {% if st=='activo' %}En Intervención{% elif st=='lista_espera' %}Lista de Espera{% elif st=='egresado' %}Egresado{% elif st=='evaluacion' %}Evaluación Inicial{% else %}-{% endif %}
+        </span></td>
+        <td>{{ p.rut or '-' }}</td>
+        <td>{{ p.age if p.age is not none else '-' }}</td>
+        <td>{{ p.birthdate or '-' }}</td>
+        <td>{{ p.guardian or '-' }}</td>
+        <td><span class="tag">{{ p.relation or '-' }}</span></td>
+        <td>{{ p.phone or '-' }}</td>
+        <td>{{ p.address or '-' }}</td>
+        <td><span class="tag">{{ p.zone or '-' }}</span></td>
+        <td>{% if p.frequency %}<span class="badge">{{ p.frequency }}</span>{% else %}-{% endif %}</td>
+        <td><a href="/patients/{{ p.id }}">Ver</a> · <a href="/patients/{{ p.id }}/edit">Editar</a></td>
+      </tr>
     {% endfor %}
   </tbody>
 </table>

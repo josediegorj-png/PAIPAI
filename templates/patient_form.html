@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{% if patient %}Editar usuario{% else %}Nuevo usuario{% endif %}</h2>
+<form method="post" class="grid">
+  <label>RUT<input name="rut" value="{{ patient.rut if patient else '' }}" /></label>
+  <label>Nombres*<input name="first_name" required value="{{ patient.first_name if patient else '' }}" /></label>
+  <label>Apellidos*<input name="last_name" required value="{{ patient.last_name if patient else '' }}" /></label>
+  <label>Establecimiento<input name="school" value="{{ patient.school if patient else '' }}" /></label>
+  <label>Curso<input name="grade" value="{{ patient.grade if patient else '' }}" /></label>
+  <label>F. Nacimiento<input name="birthdate" placeholder="AAAA-MM-DD" value="{{ patient.birthdate if patient else '' }}" /></label>
+  <label>Teléfono<input name="phone" value="{{ patient.phone if patient else '' }}" /></label>
+  <label>Apoderado/a<input name="guardian" value="{{ patient.guardian if patient else '' }}" /></label>
+  <label>Estado
+    <select name="status">
+      <option value="activo" {% if patient and patient.status=='activo' %}selected{% endif %}>Activo</option>
+      <option value="egresado" {% if patient and patient.status=='egresado' %}selected{% endif %}>Egresado</option>
+      <option value="lista_espera" {% if patient and patient.status=='lista_espera' %}selected{% endif %}>Lista de espera</option>
+    </select>
+  </label>
+  <button type="submit">Guardar</button>
+</form>
+{% endblock %}

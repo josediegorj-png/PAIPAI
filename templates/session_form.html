@@ -1,36 +1,51 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2>{% if record %}Editar{% else %}Nueva{% endif %} sesión — {{ patient.first_name }} {{ patient.last_name }}</h2>
-<form method="post" class="grid">
-  <label>Fecha*<input type="date" name="date" required value="{{ record.date if record else '' }}" /></label>
-  <label>Profesional*<input name="professional" required placeholder="Psicólogo/a, TO, TS" value="{{ record.professional if record else '' }}" /></label>
-  <label>Modalidad
-    <select name="mode">
-      {% set m = record.mode if record else 'presencial' %}
-      <option value="presencial" {% if m=='presencial' %}selected{% endif %}>Presencial</option>
-      <option value="teleconsulta" {% if m=='teleconsulta' %}selected{% endif %}>Teleconsulta</option>
-      <option value="domicilio" {% if m=='domicilio' %}selected{% endif %}>Domicilio</option>
-    </select>
-  </label>
-  <label>Duración (min)<input type="number" name="duration_min" value="{{ record.duration_min if record else 50 }}" /></label>
 
-  <label>Motivo/Derivación<textarea name="reason">{{ record.reason if record else '' }}</textarea></label>
-  <label>Foco/Objetivo<textarea name="focus">{{ record.focus if record else '' }}</textarea></label>
-  <label>Intervenciones (técnicas/actividades)<textarea name="interventions">{{ record.interventions if record else '' }}</textarea></label>
-  <label>Resultados/Observaciones<textarea name="outcomes">{{ record.outcomes if record else '' }}</textarea></label>
+<article class="card">
+  <h3>Datos de la sesión</h3>
+  <form method="post" class="grid">
+    <label>Fecha*<input type="date" name="date" required value="{{ record.date if record else '' }}" /></label>
+    <label>Profesional*<input name="professional" required placeholder="Psicólogo/a, TO, TS" value="{{ record.professional if record else '' }}" /></label>
+    <label>Modalidad
+      <select name="mode">
+        {% set m = record.mode if record else 'presencial' %}
+        <option value="presencial" {% if m=='presencial' %}selected{% endif %}>Presencial</option>
+        <option value="teleconsulta" {% if m=='teleconsulta' %}selected{% endif %}>Online</option>
+        <option value="domicilio" {% if m=='domicilio' %}selected{% endif %}>Domicilio</option>
+      </select>
+    </label>
+    <label>Duración (min)<input type="number" name="duration_min" value="{{ record.duration_min if record else 50 }}" /></label>
+  </form>
+</article>
 
-  <label>Nivel de riesgo
-    <select name="risk_level">
-      {% set r = record.risk_level if record else '' %}
-      <option value="">—</option>
-      <option value="bajo" {% if r=='bajo' %}selected{% endif %}>Bajo</option>
-      <option value="medio" {% if r=='medio' %}selected{% endif %}>Medio</option>
-      <option value="alto" {% if r=='alto' %}selected{% endif %}>Alto</option>
-    </select>
-  </label>
-  <label>Derivaciones (OLN/salud/otros)<textarea name="referrals">{{ record.referrals if record else '' }}</textarea></label>
-  <label>Próximos pasos / Tareas<textarea name="next_steps">{{ record.next_steps if record else '' }}</textarea></label>
+<article class="card">
+  <h3>Proceso clínico</h3>
+  <form method="post" class="grid" style="margin-top:.6rem">
+    <label>Motivo / Derivación<textarea name="reason">{{ record.reason if record else '' }}</textarea></label>
+    <label>Objetivo / Foco terapéutico<textarea name="focus">{{ record.focus if record else '' }}</textarea></label>
+    <label>Técnicas / Intervenciones<textarea name="interventions">{{ record.interventions if record else '' }}</textarea></label>
+    <label>Observaciones / Resultados<textarea name="outcomes">{{ record.outcomes if record else '' }}</textarea></label>
+  </form>
+</article>
 
-  <button type="submit">Guardar</button>
-</form>
+<article class="card">
+  <h3>Gestión del caso</h3>
+  <form method="post" class="grid" style="margin-top:.6rem">
+    <label>Nivel de riesgo
+      <select name="risk_level">
+        {% set r = record.risk_level if record else '' %}
+        <option value="">—</option>
+        <option value="bajo" {% if r=='bajo' %}selected{% endif %}>Bajo</option>
+        <option value="medio" {% if r=='medio' %}selected{% endif %}>Medio</option>
+        <option value="alto" {% if r=='alto' %}selected{% endif %}>Alto</option>
+      </select>
+    </label>
+    <label>Derivaciones (OLN/salud/otros)<textarea name="referrals">{{ record.referrals if record else '' }}</textarea></label>
+    <label>Próximos pasos / Tareas<textarea name="next_steps">{{ record.next_steps if record else '' }}</textarea></label>
+    <label>Documento de sesión (link)<input name="doc_link" placeholder="https://..." value="{{ record.doc_link if record else '' }}" /></label>
+    <button type="submit">Guardar</button>
+  </form>
+</article>
 {% endblock %}
+

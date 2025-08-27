@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CMR PAI Pucón</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <nav class="container">
+    <ul>
+      <li><strong>CMR PAI</strong></li>
+    </ul>
+    <ul>
+      <li><a href="/dashboard">Inicio</a></li>
+      <li><a href="/patients">Usuarios</a></li>
+      <li><a href="/sessions">Sesiones</a></li>
+      <li><a href="/stats">Estadísticas</a></li>
+      <li><a href="/logout">Salir</a></li>
+    </ul>
+  </nav>
+  <main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div>
+          {% for category, message in messages %}
+            <article class="{{ category }}">{{ message }}</article>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

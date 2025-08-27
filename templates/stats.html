@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Estadísticas {{ year }}</h2>
+<div class="grid">
+  <article><h3>Total usuarios</h3><p class="kpi">{{ total_users }}</p></article>
+  <article><h3>Activos</h3><p class="kpi">{{ active_users }}</p></article>
+  <article><h3>Lista de espera</h3><p class="kpi">{{ wait_users }}</p></article>
+  <article><h3>Total sesiones</h3><p class="kpi">{{ total_sessions }}</p></article>
+</div>
+
+<h3>Sesiones por mes</h3>
+<table>
+  <thead><tr><th>Mes</th><th>Cantidad</th></tr></thead>
+  <tbody>
+    {% for m in monthly %}
+    <tr><td>{{ m.month }}</td><td>{{ m.count }}</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

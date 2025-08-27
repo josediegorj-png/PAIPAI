@@ -5,18 +5,30 @@
   <label>RUT<input name="rut" value="{{ patient.rut if patient else '' }}" /></label>
   <label>Nombres*<input name="first_name" required value="{{ patient.first_name if patient else '' }}" /></label>
   <label>Apellidos*<input name="last_name" required value="{{ patient.last_name if patient else '' }}" /></label>
+
   <label>Establecimiento<input name="school" value="{{ patient.school if patient else '' }}" /></label>
   <label>Curso<input name="grade" value="{{ patient.grade if patient else '' }}" /></label>
   <label>F. Nacimiento<input name="birthdate" placeholder="AAAA-MM-DD" value="{{ patient.birthdate if patient else '' }}" /></label>
+
+  <label>Adulto responsable<input name="guardian" value="{{ patient.guardian if patient else '' }}" /></label>
+  <label>Relación<input name="relation" value="{{ patient.relation if patient else '' }}" /></label>
   <label>Teléfono<input name="phone" value="{{ patient.phone if patient else '' }}" /></label>
-  <label>Apoderado/a<input name="guardian" value="{{ patient.guardian if patient else '' }}" /></label>
+  <label>Dirección<input name="address" value="{{ patient.address if patient else '' }}" /></label>
+  <label>Zona<input name="zone" value="{{ patient.zone if patient else '' }}" /></label>
+
+  <label>Frecuencia<input name="frequency" value="{{ patient.frequency if patient else '' }}" /></label>
   <label>Estado
     <select name="status">
-      <option value="activo" {% if patient and patient.status=='activo' %}selected{% endif %}>Activo</option>
-      <option value="egresado" {% if patient and patient.status=='egresado' %}selected{% endif %}>Egresado</option>
-      <option value="lista_espera" {% if patient and patient.status=='lista_espera' %}selected{% endif %}>Lista de espera</option>
+      {% set s = patient.status if patient else 'activo' %}
+      <option value="activo" {% if s=='activo' %}selected{% endif %}>En Intervención</option>
+      <option value="lista_espera" {% if s=='lista_espera' %}selected{% endif %}>Lista de Espera</option>
+      <option value="egresado" {% if s=='egresado' %}selected{% endif %}>Egresado</option>
+      <option value="evaluacion" {% if s=='evaluacion' %}selected{% endif %}>Evaluación Inicial</option>
     </select>
   </label>
+
+  <label>Plan de intervención (PAI)<textarea name="intervention_plan">{{ patient.intervention_plan if patient else '' }}</textarea></label>
+  <label>Documento (link Drive/One/Dropbox)<input name="doc_link" placeholder="https://..." value="{{ patient.doc_link if patient else '' }}" /></label>
   <button type="submit">Guardar</button>
 </form>
 {% endblock %}

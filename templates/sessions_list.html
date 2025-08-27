@@ -8,16 +8,19 @@
 </form>
 <table>
   <thead>
-    <tr><th>Fecha</th><th>Usuario</th><th>Profesional</th><th>Modalidad</th><th>Foco</th><th></th></tr>
+    <tr><th>Fecha</th><th>Usuario</th><th>Profesional</th><th>Modalidad</th><th>Foco</th><th>Autor</th><th></th></tr>
   </thead>
   <tbody>
     {% for s in sessions %}
+    {% set mode = s.mode or '' %}
+    {% set pill = 'pill-blue' if mode=='presencial' else ('pill-green' if mode=='teleconsulta' else 'pill-yellow') %}
     <tr>
       <td>{{ s.date }}</td>
       <td><a href="/patients/{{ s.patient_id }}">#{{ s.patient_id }}</a></td>
       <td>{{ s.professional }}</td>
-      <td>{{ s.mode }}</td>
+      <td><span class="pill {{ pill }}">{{ 'Presencial' if mode=='presencial' else ('Online' if mode=='teleconsulta' else 'Domicilio') }}</span></td>
       <td>{{ s.focus or '-' }}</td>
+      <td>{{ s.created_by or '-' }}</td>
       <td><a href="/sessions/{{ s.id }}/edit">Editar</a></td>
     </tr>
     {% endfor %}

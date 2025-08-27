@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Usuarios</h2>
+<form method="get" class="grid">
+  <input type="search" name="q" placeholder="Buscar por nombre o RUT" value="{{ q }}" />
+  <select name="status">
+    <option value="">Todos</option>
+    <option value="activo" {% if status=='activo' %}selected{% endif %}>Activos</option>
+    <option value="egresado" {% if status=='egresado' %}selected{% endif %}>Egresados</option>
+    <option value="lista_espera" {% if status=='lista_espera' %}selected{% endif %}>Lista de espera</option>
+  </select>
+  <button type="submit">Filtrar</button>
+  <a class="secondary" href="/patients/new">+ Nuevo usuario</a>
+  <a class="secondary" href="/export/patients.csv">Exportar CSV</a>
+</form>
+
+<table>
+  <thead>
+    <tr><th>ID</th><th>Nombre</th><th>RUT</th><th>Curso</th><th>Estado</th><th></th></tr>
+  </thead>
+  <tbody>
+    {% for p in patients %}
+    <tr>
+      <td>{{ p.id }}</td>
+      <td>{{ p.first_name }} {{ p.last_name }}</td>
+      <td>{{ p.rut or '-' }}</td>
+      <td>{{ p.grade or '-' }}</td>
+      <td>{{ p.status }}</td>
+      <td><a href="/patients/{{ p.id }}">Ver</a> · <a href="/patients/{{ p.id }}/edit">Editar</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

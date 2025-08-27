@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Panel</h2>
+<div class="grid">
+  <article><h3>Total usuarios</h3><p class="kpi">{{ total_patients }}</p></article>
+  <article><h3>Activos</h3><p class="kpi">{{ active_patients }}</p></article>
+  <article><h3>Lista de espera</h3><p class="kpi">{{ waiting_patients }}</p></article>
+  <article><h3>Sesiones</h3><p class="kpi">{{ total_sessions }}</p></article>
+</div>
+
+<h3>Últimas sesiones</h3>
+<table>
+  <thead>
+    <tr><th>Fecha</th><th>Usuario</th><th>Profesional</th><th>Foco</th></tr>
+  </thead>
+  <tbody>
+    {% for s in last_sessions %}
+    <tr>
+      <td>{{ s.date }}</td>
+      <td><a href="/patients/{{ s.patient_id }}">ID {{ s.patient_id }}</a></td>
+      <td>{{ s.professional }}</td>
+      <td>{{ s.focus or '-' }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

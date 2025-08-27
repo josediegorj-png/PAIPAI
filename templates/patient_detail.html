@@ -12,6 +12,14 @@
   <a class="contrast" href="/patients/{{ patient.id }}/sessions/new">+ Agregar sesión</a>
 </p>
 
+{% if patient.intervention_plan %}
+  <h3>Plan de intervención</h3>
+  <article class="card"><pre style="white-space:pre-wrap">{{ patient.intervention_plan }}</pre></article>
+{% endif %}
+{% if patient.doc_link %}
+  <p><a class="secondary" href="{{ patient.doc_link }}" target="_blank">Abrir documento del caso</a></p>
+{% endif %}
+
 <h3>Sesiones</h3>
 <table>
   <thead>
